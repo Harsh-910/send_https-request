@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from "react";
 
-import MoviesList from './components/MoviesList';
-import AddMovie from './components/AddMovie';
-import './App.css';
+import MoviesList from "./components/MoviesList";
+import AddMovie from "./components/AddMovie";
+import "./App.css";
 
 function App() {
   const [movies, setMovies] = useState([]);
@@ -13,12 +13,15 @@ function App() {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch('https://react-http-6b4a6.firebaseio.com/movies.json');
+      const response = await fetch(
+        "https://react-test-b8040-default-rtdb.firebaseio.com/movies.json"
+      );
       if (!response.ok) {
-        throw new Error('Something went wrong!');
+        throw new Error("Something went wrong!");
       }
 
       const data = await response.json();
+      console.log(data);
 
       const loadedMovies = [];
 
@@ -27,9 +30,10 @@ function App() {
           id: key,
           title: data[key].title,
           openingText: data[key].openingText,
-          releaseDate: data[key].releaseDate,
+          releaseDate: data[key].releaseDate
         });
       }
+      console.log(loadedMovies);
 
       setMovies(loadedMovies);
     } catch (error) {
@@ -43,13 +47,16 @@ function App() {
   }, [fetchMoviesHandler]);
 
   async function addMovieHandler(movie) {
-    const response = await fetch('https://react-http-6b4a6.firebaseio.com/movies.json', {
-      method: 'POST',
-      body: JSON.stringify(movie),
-      headers: {
-        'Content-Type': 'application/json'
+    const response = await fetch(
+      "https://react-test-b8040-default-rtdb.firebaseio.com/movies.json",
+      {
+        method: "POST",
+        body: JSON.stringify(movie),
+        headers: {
+          "Content-Type": "application/json"
+        }
       }
-    });
+    );
     const data = await response.json();
     console.log(data);
   }
